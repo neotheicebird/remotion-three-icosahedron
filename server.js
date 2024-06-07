@@ -4,7 +4,7 @@ const app = express();
 const PORT = 3003;
 
 app.get('/download', (req, res) => {
-  const file = path.join(__dirname, 'path/to/your/file.mp4');
+  const file = path.join(__dirname, 'out/video.mp4');
   res.download(file);
 });
 
