@@ -10,11 +10,6 @@
       "name": "Start App",
       "command": "npm start",
       "runAtStart": true
-    },
-    "render-video": {
-      "name": "Render Video",
-      "command": "npm run build",
-      "runAtStart": false
     }
   }
 }
