@@ -20,14 +20,6 @@
       "name": "Render Video",
       "command": "npm run build",
       "runAtStart": false
-    },
-    "download-render": {
-      "name": "Download last Render",
-      "command": "node server.js",
-      "runAtStart": false,
-      "preview": {
-        "port": 3003
-      }
     }
   }
 }
