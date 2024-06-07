@@ -1,0 +1,20 @@
+{
+  "$schema": "https://codesandbox.io/schemas/tasks.json",
+  "setupTasks": ["yarn install", "yarn build"],
+  "tasks": {
+    "install-dependencies": {
+      "name": "Install Dependencies",
+      "command": "npm install"
+    },
+    "start-app": {
+      "name": "Start App",
+      "command": "npm start",
+      "runAtStart": true
+    },
+    "render-video": {
+      "name": "Render Video",
+      "command": "npm run build",
+      "runAtStart": false
+    }
+  }
+}
