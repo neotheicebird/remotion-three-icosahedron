@@ -9,7 +9,11 @@
     "start-app": {
       "name": "Start App",
       "command": "npm start",
-      "runAtStart": true
+      "runAtStart": true,
+      "preview": {
+        "port": 4000,
+        "prLink": "direct"
+      }
     }
   }
 }
