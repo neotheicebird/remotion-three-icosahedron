@@ -14,6 +14,11 @@
         "port": 4000,
         "prLink": "direct"
       }
+    },
+    "render-video": {
+      "name": "Render Video",
+      "command": "npm run build",
+      "runAtStart": false
     }
   }
 }
