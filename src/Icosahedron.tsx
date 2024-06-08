@@ -5,18 +5,12 @@ import { VideoTexture } from "three";
 import {
   CAMERA_DISTANCE,
   getPhoneLayout,
-  PHONE_CURVE_SEGMENTS,
-  PHONE_SHININESS,
 } from "./helpers/layout";
-import { roundedRect } from "./helpers/rounded-rectangle";
-import { RoundedBox } from "./RoundedBox";
 
-export const Phone: React.FC<{
-  videoTexture: VideoTexture | null;
+export const Icosahedron: React.FC<{
   aspectRatio: number;
   baseScale: number;
-  phoneColor: string;
-}> = ({ aspectRatio, videoTexture, baseScale, phoneColor }) => {
+}> = ({ aspectRatio, baseScale }) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
 
@@ -34,14 +28,6 @@ export const Phone: React.FC<{
     camera.far = Math.max(5000, CAMERA_DISTANCE * 2);
     camera.lookAt(0, 0, 0);
   }, [camera]);
-
-  // Make the video fill the phone texture
-  useEffect(() => {
-    if (videoTexture) {
-      videoTexture.repeat.y = 1 / layout.screen.height;
-      videoTexture.repeat.x = 1 / layout.screen.width;
-    }
-  }, [aspectRatio, layout.screen.height, layout.screen.width, videoTexture]);
 
   // During the whole scene, the phone is rotating.
   // 2 * Math.PI is a full rotation.
@@ -77,41 +63,16 @@ export const Phone: React.FC<{
   // The start position of the phone is set to 4 "units"
   const translateY = interpolate(entranceAnimation, [0, 1], [-4, 0]);
 
-  // Calculate a rounded rectangle for the phone screen
-  const screenGeometry = useMemo(() => {
-    return roundedRect({
-      width: layout.screen.width,
-      height: layout.screen.height,
-      radius: layout.screen.radius,
-    });
-  }, [layout.screen.height, layout.screen.radius, layout.screen.width]);
-
   return (
     <group
       scale={entranceAnimation}
       rotation={[0, rotateY, 0]}
       position={[0, translateY, 0]}
     >
-      <RoundedBox
-        radius={layout.phone.radius}
-        depth={layout.phone.thickness}
-        curveSegments={PHONE_CURVE_SEGMENTS}
-        position={layout.phone.position}
-        width={layout.phone.width}
-        height={layout.phone.height}
-      >
-        <meshPhongMaterial color={phoneColor} shininess={PHONE_SHININESS} />
-      </RoundedBox>
       <mesh position={layout.screen.position}>
-        <shapeGeometry args={[screenGeometry]} />
-        {videoTexture ? (
-          <meshBasicMaterial
-            color={0xffffff}
-            toneMapped={false}
-            map={videoTexture}
-          />
-        ) : null}
+        
       </mesh>
+      
     </group>
   );
 };
