@@ -1,5 +1,5 @@
 import { useThree } from "@react-three/fiber";
-import { PerspectiveCamera, OrbitControls } from '@react-three/drei';
+import { PerspectiveCamera, OrbitControls, Icosahedron } from '@react-three/drei';
 import React, { useEffect, useMemo } from "react";
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { VideoTexture } from "three";
@@ -12,17 +12,6 @@ export const Icosahedron: React.FC<{
 }> = ({ aspectRatio, baseScale }) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
-
-  // Place a camera and set the distance to the object.
-  // Then make it look at the object.
-  const camera = useThree((state) => state.camera);
-  useEffect(() => {
-    camera.position.set(0, 0, CAMERA_Z_DISTANCE);
-    camera.near = 0.1;
-    camera.far = Math.max(10, CAMERA_Z_DISTANCE * 2);
-    camera.aspect = 
-    camera.lookAt(0, 0, 0);
-  }, [camera]);
 
   // During the whole scene, the phone is rotating.
   // 2 * Math.PI is a full rotation.
@@ -66,18 +55,24 @@ export const Icosahedron: React.FC<{
     >
       <PerspectiveCamera
         makeDefault // sets this camera as the default
-        position={[0, 0, 5]} // sets the position of the camera
+        position={[0, 0, 2]} // sets the position of the camera
         fov={75} // field of view
         aspect={window.innerWidth / window.innerHeight} // aspect ratio
         near={0.1} // near clipping plane
-        far={1000} // far clipping plane
+        far={10} // far clipping plane
       />
-      <OrbitControls />
+      <OrbitControls 
+        enableDamping={true} // enables damping (inertia)
+        dampingFactor={0.05} // sets the damping factor
+      />
       {/* Add objects in the scene here */}
-      <mesh>
+      <Icosahedron args={[1, 2]} position={[0, 0, 0]}>
+        <meshStandardMaterial attach="material" color={0xccff} flatShading={true} />
+      </Icosahedron>
+      {/* <mesh>
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial color={'orange'} />
-      </mesh>
+      </mesh> */}
       
     </group>
   );
