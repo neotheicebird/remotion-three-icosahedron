@@ -1,11 +1,10 @@
 import { useThree } from "@react-three/fiber";
+import { PerspectiveCamera, OrbitControls } from '@react-three/drei';
 import React, { useEffect, useMemo } from "react";
 import { interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { VideoTexture } from "three";
-import {
-  CAMERA_DISTANCE,
-  getPhoneLayout,
-} from "./helpers/layout";
+
+const CAMERA_Z_DISTANCE = 2;
 
 export const Icosahedron: React.FC<{
   aspectRatio: number;
@@ -14,18 +13,14 @@ export const Icosahedron: React.FC<{
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
 
-  const layout = useMemo(
-    () => getPhoneLayout(aspectRatio, baseScale),
-    [aspectRatio, baseScale],
-  );
-
   // Place a camera and set the distance to the object.
   // Then make it look at the object.
   const camera = useThree((state) => state.camera);
   useEffect(() => {
-    camera.position.set(0, 0, CAMERA_DISTANCE);
-    camera.near = 0.2;
-    camera.far = Math.max(5000, CAMERA_DISTANCE * 2);
+    camera.position.set(0, 0, CAMERA_Z_DISTANCE);
+    camera.near = 0.1;
+    camera.far = Math.max(10, CAMERA_Z_DISTANCE * 2);
+    camera.aspect = 
     camera.lookAt(0, 0, 0);
   }, [camera]);
 
@@ -69,8 +64,19 @@ export const Icosahedron: React.FC<{
       rotation={[0, rotateY, 0]}
       position={[0, translateY, 0]}
     >
-      <mesh position={layout.screen.position}>
-        
+      <PerspectiveCamera
+        makeDefault // sets this camera as the default
+        position={[0, 0, 5]} // sets the position of the camera
+        fov={75} // field of view
+        aspect={window.innerWidth / window.innerHeight} // aspect ratio
+        near={0.1} // near clipping plane
+        far={1000} // far clipping plane
+      />
+      <OrbitControls />
+      {/* Add objects in the scene here */}
+      <mesh>
+        <boxGeometry args={[1, 1, 1]} />
+        <meshStandardMaterial color={'orange'} />
       </mesh>
       
     </group>
