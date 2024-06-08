@@ -3,7 +3,7 @@ import { getVideoMetadata, VideoMetadata } from "@remotion/media-utils";
 import { ThreeCanvas, useVideoTexture } from "@remotion/three";
 import React, { useEffect, useRef, useState } from "react";
 import { AbsoluteFill, useVideoConfig, Video } from "remotion";
-import { Icosahedron } from "./Icosahedron";
+import { IcosahedronComponent } from "./Icosahedron";
 import { z } from "zod";
 import { zColor } from "@remotion/zod-types";
 
@@ -49,7 +49,7 @@ export const Scene: React.FC<
         <ThreeCanvas linear width={width} height={height}>
           <ambientLight intensity={1.5} color={0xffffff} />
           <pointLight position={[10, 10, 0]} />
-          <Icosahedron
+          <IcosahedronComponent
             baseScale={baseScale}
             aspectRatio={videoData.aspectRatio}
           />
